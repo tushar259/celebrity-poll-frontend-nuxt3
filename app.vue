@@ -130,6 +130,8 @@ export default {
       // console.log("window.location.search: "+window.location.search); // query string part of the current URL
       // this.$nuxt.$on('class-changed', ($event) => this.updateSpecificDivClass($event))
       this.checkIfUserLoggedin();
+      console.log("Public API URL: "+this.$config.public.API_URL);
+      console.log("Private API URL: "+this.$config.private_API_URL);
       // this.getListOfIndustries();
       
   },
