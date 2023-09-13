@@ -113,8 +113,35 @@ export default {
       activeLink: '',
       allIndustry: [],
       currentLocation: process.client ? window.location.pathname : '',
+
   }),
 
+
+  
+
+
+    async setup() {
+        const allIndustry = ref([]);
+        const apiUrl = process.env.API_URL;
+        
+        try{
+            const response = await useFetch(apiUrl+`/api/get-list-of-industries`)
+            
+            if(response.data.value.success == true){
+                allIndustry.value = response.data.value.all_industry;
+            }
+            else{
+                allIndustry.value = [];
+            }
+        }
+        catch(error){
+            allIndustry.value = [];
+        }
+        // console.log("response: ",response.data.value.success);
+        return {
+            allIndustry,
+        };
+    },
   
 
   created(){
@@ -130,8 +157,8 @@ export default {
       // console.log("window.location.search: "+window.location.search); // query string part of the current URL
       // this.$nuxt.$on('class-changed', ($event) => this.updateSpecificDivClass($event))
       this.checkIfUserLoggedin();
-      console.log("Public API URL: "+this.$config.public.API_URL);
-      console.log("Private API URL: "+this.$config.private_API_URL);
+    //   console.log("Public API URL: "+this.$config.public.API_URL);
+    //   console.log("Private API URL: "+this.$config.private_API_URL);
       // this.getListOfIndustries();
       
   },
@@ -150,7 +177,9 @@ export default {
       },
       
       getCurrentWindowLocation(){
+          
           const parts = this.currentLocation.split('/');
+          
           if((parts[1] === "" || parts[1] === "polls") && !parts[2]){
               this.activeLink = 'home';
           }
